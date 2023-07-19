@@ -1,0 +1,203 @@
+{
+    "root": true,
+    "ignorePatterns": ["**/*",".storybook/*"],
+    "plugins": [
+      "@nrwl/nx",
+      "simple-import-sort",
+      "rxjs",
+      "@ngrx"
+    ],
+    "overrides": [
+      {
+        "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+        "extends": ["plugin:import/recommended"],
+        "rules": {
+          "no-console": "error",
+          "no-duplicate-imports": ["error", { "includeExports": true }],
+          "import/first": "error",
+          "import/no-unresolved": "off",
+          "import/named": "off",
+          "import/newline-after-import": "error",
+          "simple-import-sort/exports": "error",
+          "simple-import-sort/imports": [
+            "error",
+            {
+              "groups": [
+                ["^\\u0000"],
+                ["^[^.]"],
+                ["^\\."]
+              ]
+            }
+          ],
+          "@nrwl/nx/enforce-module-boundaries": [
+            "error",
+            {
+              "enforceBuildableLibDependency": true,
+              "allow": [],
+              "depConstraints": [
+                {
+                  "sourceTag": "*",
+                  "onlyDependOnLibsWithTags": ["*"]
+                },
+                {
+                  "sourceTag": "scope:common",
+                  "onlyDependOnLibsWithTags": ["scope:common"]
+                },
+                {
+                  "sourceTag": "scope:domains",
+                  "onlyDependOnLibsWithTags": ["scope:common", "scope:domains"]
+                },
+                {
+                  "sourceTag": "scope:hosts",
+                  "onlyDependOnLibsWithTags": ["scope:common", "scope:domains"]
+                },
+                {
+                  "sourceTag": "scope:remotes",
+                  "onlyDependOnLibsWithTags": ["scope:common", "scope:domains"]
+                },
+                {
+                  "sourceTag": "key:default",
+                  "onlyDependOnLibsWithTags": ["scope:common", "key:default"]
+                },
+                {
+                  "sourceTag": "type:shared",
+                  "onlyDependOnLibsWithTags": ["type:shared"]
+                },
+                {
+                  "sourceTag": "type:entities",
+                  "onlyDependOnLibsWithTags": ["type:shared"]
+                },
+                {
+                  "sourceTag": "type:features",
+                  "onlyDependOnLibsWithTags": ["type:shared", "type:entities"]
+                },
+                {
+                  "sourceTag": "type:widgets",
+                  "onlyDependOnLibsWithTags": ["type:shared", "type:entities", "type:features"]
+                },
+                {
+                  "sourceTag": "type:pages",
+                  "onlyDependOnLibsWithTags": ["type:shared", "type:entities", "type:features", "type:widgets", "type:pages"]
+                },
+                {
+                  "sourceTag": "type:processes",
+                  "onlyDependOnLibsWithTags": ["type:shared", "type:entities", "type:features", "type:widgets", "type:pages"]
+                },
+                {
+                  "sourceTag": "type:apps",
+                  "onlyDependOnLibsWithTags": ["type:shared", "type:entities", "type:features", "type:widgets", "type:pages", "type:processes"]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "files": ["*.ts", "*.tsx"],
+        "extends": [
+          "plugin:@nrwl/nx/typescript",
+          "plugin:rxjs/recommended",
+          "plugin:@ngrx/strict-requiring-type-checking"
+        ],
+        "parserOptions": {
+          "project": ["tsconfig.base.json"]
+        },
+        "rules": {
+          "@typescript-eslint/naming-convention": [
+            "error",
+            {
+              "selector": ["variableLike", "property", "method"],
+              "format": ["camelCase", "snake_case"]
+            },
+            {
+              "selector": "typeLike",
+              "format": ["PascalCase"]
+            },
+            {
+              "selector": "variable",
+              "format": ["camelCase", "UPPER_CASE"],
+              "trailingUnderscore": "allow"
+            },
+            {
+              "selector": "parameter",
+              "format": ["camelCase"],
+              "leadingUnderscore": "allow"
+            },
+            {
+              "selector": "typeProperty",
+              "format": ["camelCase", "snake_case"],
+              "trailingUnderscore": "allow"
+            },
+            {
+              "selector": ["classProperty", "classMethod"],
+              "format": ["camelCase"],
+              "modifiers": [
+                "abstract",
+                "protected",
+                "public",
+                "readonly",
+                "static"
+              ],
+              "leadingUnderscore": "forbid"
+            },
+            {
+              "selector": ["classProperty", "classMethod"],
+              "format": ["camelCase"],
+              "modifiers": ["private"],
+              "leadingUnderscore": "require"
+            },
+            {
+              "selector": "interface",
+              "format": ["PascalCase"],
+              "custom": {
+                "regex": "^I[A-Z]",
+                "match": false
+              }
+            }
+          ],
+          "@typescript-eslint/no-unused-vars": [
+            "error",
+            { "argsIgnorePattern": "^_" }
+          ],
+          "@typescript-eslint/no-empty-function": [
+            "error",
+            {
+              "allow": ["constructors"]
+            }
+          ],
+          "rxjs/finnish": [
+            "error",
+            {
+              "functions": false,
+              "methods": false,
+              "names": {
+                "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate|store)$": false
+              },
+              "parameters": true,
+              "properties": true,
+              "strict": true,
+              "types": {
+                "^EventEmitter$": false
+              },
+              "variables": true
+            }
+          ]
+        }
+      },
+      {
+        "files": ["*.js", "*.jsx"],
+        "extends": ["plugin:@nrwl/nx/javascript"],
+        "rules": {}
+      },
+      {
+        "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+        "env": {
+          "jest": true
+        },
+        "extends": ["plugin:jest/recommended"],
+        "rules": {
+          "jest/no-disabled-tests": "warn"
+        }
+      }
+    ]
+  }
