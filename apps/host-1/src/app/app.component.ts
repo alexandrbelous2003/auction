@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'host-1';
   constructor() {
-    // eslint-disable-next-line no-console
+
     console.log(this.title)
     
   }
